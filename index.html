@@ -57,6 +57,9 @@ h1,h2,h3{margin:0;line-height:1.2}
 .party{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(31,58,77,.45)}
 .party .bx{background:var(--surface);border-radius:28px;padding:24px;max-width:440px;width:100%;text-align:center;border:4px solid var(--sun);display:flex;flex-direction:column;gap:14px;align-items:center}
 .party .big{font-size:2.6rem;font-weight:700;color:var(--leaf2)}
+.rate{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;border-top:2px dashed var(--line);padding-top:12px;width:100%}
+.rate button{width:64px;height:56px;border-radius:18px;border:3px solid var(--line);background:#fff;font-size:1.8rem;cursor:pointer}
+.rate button:active{transform:scale(.95)}
 .party .star{width:96px;height:96px;animation:pop .6s ease-out}
 @keyframes pop{0%{transform:scale(.2) rotate(-30deg)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
 .confetti{position:fixed;top:-20px;width:12px;height:18px;border-radius:4px;z-index:49;pointer-events:none;animation:fall linear forwards}
@@ -144,10 +147,10 @@ const LS={get(k,d){try{const v=localStorage.getItem("gk."+k);return v==null?d:JS
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const COMMON_T={
  en:{lang:"አማርኛ",home:"Home",playAgain:"Play again",next:"Next",skip:"Skip practice",practice:"Practice round",gotIt:"Let's play!",
-  voice:"Voices coming soon",starEarned:"You earned a star!",yay:["Great job!","Well done!","You did it!","Super!","Gobez!"],tryAgain:"Try again — you can do it!",
+  voice:"Voices coming soon",rateQ:"Did you like this game?",rateThanks:"Thank you!",starEarned:"You earned a star!",yay:["Great job!","Well done!","You did it!","Super!","Gobez!"],tryAgain:"Try again — you can do it!",
   coachTitle:"Practice round",soon:"Coming soon",grade:"Grade",nextQ:"Next →"},
  am:{lang:"English",home:"መነሻ",playAgain:"እንደገና ተጫወቱ",next:"ቀጥል",skip:"ልምምዱን ዝለሉ",practice:"የልምምድ ዙር",gotIt:"እንጫወት!",
-  voice:"ድምፅ በቅርቡ",starEarned:"ኮከብ አገኛችሁ!",yay:["ጎበዝ!","በጣም ጥሩ!","አደረጋችሁት!","ጎበዝ ልጆች!","ዋው!"],tryAgain:"እንደገና ሞክሩ፤ ትችላላችሁ!",
+  voice:"ድምፅ በቅርቡ",rateQ:"ጨዋታውን ወደዳችሁት?",rateThanks:"እናመሰግናለን!",starEarned:"ኮከብ አገኛችሁ!",yay:["ጎበዝ!","በጣም ጥሩ!","አደረጋችሁት!","ጎበዝ ልጆች!","ዋው!"],tryAgain:"እንደገና ሞክሩ፤ ትችላላችሁ!",
   coachTitle:"የልምምድ ዙር",soon:"በቅርቡ",grade:"ክፍል",nextQ:"ቀጣይ →"}};
 let LANG=LS.get("lang",null)||((navigator.language||"").toLowerCase().indexOf("am")===0?"am":"en");
 let PAGE_T={en:{},am:{}};
@@ -168,7 +171,12 @@ function party(title,sub,buttons){const old=$("party");if(old)old.remove();const
  p.innerHTML='<div class="bx">'+STAR_SVG+'<div class="big"></div><div class="muted sub"></div><div class="row" style="justify-content:center"></div></div>';
  p.querySelector(".big").textContent=title;p.querySelector(".sub").textContent=sub||"";const row=p.querySelector(".row");
  buttons.forEach(([label,cls,fn])=>{const b=document.createElement("button");b.type="button";b.className="btn "+cls;b.textContent=label;b.onclick=()=>{p.remove();fn()};row.appendChild(b)});
- document.body.appendChild(p);row.firstChild&&row.firstChild.focus();confetti()}
+ rateRow(p.querySelector(".bx"));document.body.appendChild(p);row.firstChild&&row.firstChild.focus();confetti()}
+/* 👍 / 👎 after a finished round, at most once per game per day; sent only as an anonymous count */
+function rateRow(box){const parts=location.pathname.split("/").filter(Boolean);if(parts.length&&/\.html$/.test(parts[parts.length-1]))parts.pop();const game=parts.pop()||"home";
+ const key="rated."+game+"."+new Date().toISOString().slice(0,10);if(LS.get(key,false))return;
+ const r=document.createElement("div");r.className="rate";r.innerHTML='<span></span><button type="button" data-v="like" aria-label="Like">👍</button><button type="button" data-v="dislike" aria-label="Dislike">👎</button>';
+ r.firstChild.textContent=t("rateQ");r.querySelectorAll("button").forEach(b=>b.onclick=()=>{LS.set(key,true);track("rating",{game,value:b.dataset.v});r.innerHTML="";const s=document.createElement("b");s.textContent=t("rateThanks");r.appendChild(s)});box.appendChild(r)}
 function confetti(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cols=["#FFD54A","#5DBB63","#6EC6F0","#E0533D","#F5B700"];
  for(let i=0;i<40;i++){const c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=cols[i%cols.length];c.style.animationDuration=(1.6+Math.random()*1.6)+"s";c.style.animationDelay=(Math.random()*.4)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3600)}}
 /* the practice-round coach: a box with text, optional buttons, and a glow on the thing to tap */
