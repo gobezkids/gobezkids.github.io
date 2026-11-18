@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gobez Kids · ጎበዝ ልጆች</title>
+<meta name="description" content="Free learning games for Grades 1–3: Amharic letters (ፊደል), English letters and early math. Works offline, in Amharic and English.">
+<meta property="og:title" content="Gobez Kids · ጎበዝ ልጆች"><meta property="og:description" content="Free learning games for Grades 1–3 in Amharic and English.">
+<meta property="og:image" content="preview.png">
+<meta name="theme-color" content="#6EC6F0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gobez Kids">
+<style>@font-face{font-family:"Andika";font-weight:400;font-display:swap;src:url(fonts/andika-400.woff2) format("woff2")}
+@font-face{font-family:"Andika";font-weight:700;font-display:swap;src:url(fonts/andika-700.woff2) format("woff2")}
+@font-face{font-family:"Fidel";font-weight:400;font-display:swap;src:url(fonts/fidel-400.woff2) format("woff2")}
+@font-face{font-family:"Fidel";font-weight:700;font-display:swap;src:url(fonts/fidel-700.woff2) format("woff2")}
+:root{--sky:#BFE6FA;--sky2:#6EC6F0;--sky3:#2D8FC4;--sun:#FFD54A;--sun2:#F5B700;--leaf:#5DBB63;--leaf2:#2E8B3E;--ink:#1F3A4D;--muted:#4F6577;
+ --bg:#EAF7FE;--surface:#FFFFFF;--line:#CFE6F3;--red:#E0533D;--r:24px;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Andika","Fidel",system-ui,sans-serif;font-size:19px;line-height:1.45;min-height:100vh;display:flex;flex-direction:column}
+:lang(am) body,body:lang(am){font-family:"Fidel","Andika",system-ui,sans-serif}
+.fidel{font-family:"Fidel",system-ui,sans-serif}.latin{font-family:"Andika",system-ui,sans-serif}
+button{font:inherit;color:inherit}
+a{color:var(--sky3)}
+[hidden]{display:none!important}
+/* the Ethiopian pattern border (ጥበብ) */
+.tibeb{height:18px;flex:none;background-color:var(--leaf2);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='18'%3E%3Crect width='28' height='3' fill='%232D8FC4'/%3E%3Crect y='15' width='28' height='3' fill='%232D8FC4'/%3E%3Cpath d='M14 4.5l4.5 4.5-4.5 4.5-4.5-4.5z' fill='%23FFD54A'/%3E%3Cpath d='M0 4.5l4.5 4.5L0 13.5zM28 4.5l-4.5 4.5 4.5 4.5z' fill='%23FFD54A'/%3E%3Ccircle cx='14' cy='9' r='1.4' fill='%23E0533D'/%3E%3C/svg%3E");background-size:28px 18px}
+.wrap{width:100%;max-width:980px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));flex:1}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.top .grow{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:8px 22px;border-radius:999px;border:3px solid transparent;background:var(--surface);color:var(--ink);font-weight:700;font-size:1.05rem;cursor:pointer;text-decoration:none;box-shadow:0 3px 0 rgba(31,58,77,.15);transition:transform .1s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(31,58,77,.15)}
+.btn:focus-visible,.tile:focus-visible,.pick:focus-visible{outline:4px solid var(--sun2);outline-offset:3px}
+.btn.go{background:var(--leaf2);color:#fff}.btn.sun{background:var(--sun);color:var(--ink)}.btn.sky{background:var(--sky3);color:#fff}
+.btn.ghost{background:transparent;border-color:var(--line);box-shadow:none}.btn.sm{min-height:46px;padding:6px 16px;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:default}
+.langb{min-width:96px}
+.panel{background:var(--surface);border-radius:var(--r);padding:18px;box-shadow:0 4px 0 rgba(31,58,77,.08);border:2px solid var(--line)}
+.stack{display:flex;flex-direction:column;gap:12px}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+h1,h2,h3{margin:0;line-height:1.2}
+.muted{color:var(--muted)}.small{font-size:.9rem}
+.seg{display:flex;flex-wrap:wrap;gap:10px}
+.seg button{min-height:56px;padding:8px 18px;border-radius:18px;border:3px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--leaf2);background:#E4F6E6}
+.stars{display:inline-flex;align-items:center;gap:4px;font-weight:700;background:#FFF6D6;border-radius:999px;padding:4px 12px;border:2px solid var(--sun)}
+.pic{display:block;width:100%;height:100%}
+.voice{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);background:var(--surface);border:2px dashed var(--sky2);border-radius:999px;padding:6px 14px}
+/* coach (practice round) */
+.coach{position:sticky;bottom:8px;z-index:45;margin-top:14px;background:var(--surface);border:3px solid var(--sun2);border-left-width:12px;border-radius:var(--r);padding:12px 16px;box-shadow:0 8px 22px rgba(31,58,77,.22);display:flex;flex-direction:column;gap:8px}
+.coach .ch{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.coach p{margin:0;font-size:1.15rem}
+.glow{outline:5px solid var(--sun2)!important;outline-offset:4px;animation:glow 1s ease-in-out infinite alternate}
+@keyframes glow{from{outline-color:var(--sun2)}to{outline-color:rgba(245,183,0,.2)}}
+/* celebration */
+.party{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(31,58,77,.45)}
+.party .bx{background:var(--surface);border-radius:28px;padding:24px;max-width:440px;width:100%;text-align:center;border:4px solid var(--sun);display:flex;flex-direction:column;gap:14px;align-items:center}
+.party .big{font-size:2.6rem;font-weight:700;color:var(--leaf2)}
+.party .star{width:96px;height:96px;animation:pop .6s ease-out}
+@keyframes pop{0%{transform:scale(.2) rotate(-30deg)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.confetti{position:fixed;top:-20px;width:12px;height:18px;border-radius:4px;z-index:49;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+.msg{min-height:1.6em;font-weight:700;font-size:1.15rem;text-align:center}
+.msg.yay{color:var(--leaf2)}
+.nextwrap{display:flex;justify-content:center;margin:8px 0}.nextbtn{min-width:200px;font-size:1.25rem;min-height:62px}.msg.hmm{color:var(--sky3)}
+.foot{font-size:.9rem;color:var(--muted);text-align:center;padding:6px 16px 14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* shared game pieces: level list, progress dots, answer buttons */
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.levels button{min-height:84px;border-radius:20px;border:3px solid var(--line);background:var(--surface);text-align:left;padding:12px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 3px 0 rgba(31,58,77,.1)}
+.levels button b{font-size:1.15rem}.levels button span{color:var(--muted);font-size:.9rem}
+.levels button[aria-pressed="true"]{border-color:var(--leaf2);background:#E4F6E6}
+.prog{display:flex;gap:8px;justify-content:center;margin:4px 0 10px}
+.prog i{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--line);display:block}.prog i.on{background:var(--sun);border-color:var(--sun2)}
+.q{font-size:1.3rem;font-weight:700;text-align:center;min-height:1.6em;margin:2px 0 10px}
+.choices{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0 4px}
+.choice{min-width:84px;min-height:84px;padding:6px 14px;border-radius:22px;border:0;background:var(--sun);font-size:2.2rem;font-weight:700;cursor:pointer;box-shadow:0 5px 0 var(--sun2);color:var(--ink)}
+.choice:active{transform:translateY(3px);box-shadow:0 2px 0 var(--sun2)}
+.choice.used{visibility:hidden}.choice.no{opacity:.4}.choice.ok{background:var(--leaf);box-shadow:0 5px 0 var(--leaf2);color:#fff}
+@media (max-width:420px){.choice{min-width:70px;min-height:70px;font-size:1.9rem}}
+
+.hero{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:6px 0 14px}
+.hero svg{width:84px;height:84px;flex:none}
+.hero h1{font-size:clamp(2rem,7vw,2.9rem);color:var(--ink)}
+.hero h1 .am{font-family:"Fidel",sans-serif;color:var(--leaf2)}
+.hero p{margin:4px 0 0;color:var(--muted)}
+.grades{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:4px 0 16px}
+.grades b{margin-right:4px}
+.subj{margin:18px 0 8px;display:flex;align-items:center;gap:10px}
+.subj h2{font-size:1.45rem}.subj .dot{width:16px;height:16px;border-radius:50%}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.game{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--r);background:var(--surface);border:3px solid var(--line);text-decoration:none;color:var(--ink);box-shadow:0 4px 0 rgba(31,58,77,.1);min-height:112px}
+a.game:hover{border-color:var(--sky2)}a.game:focus-visible{outline:4px solid var(--sun2);outline-offset:3px}
+.game .art{width:72px;height:72px;flex:none;border-radius:20px;display:grid;place-items:center;padding:8px}
+.game .art svg{width:100%;height:100%}
+.game .tx{display:flex;flex-direction:column;gap:4px;min-width:0}
+.game b{font-size:1.15rem;line-height:1.25}
+.game .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:.85rem}
+.game .meta span{border-radius:999px;padding:1px 10px;background:var(--bg);font-weight:700}
+.game.soon{opacity:.6;border-style:dashed;box-shadow:none}
+.game.soon .meta .s{background:#FFF6D6}
+.a-am{background:#E4F6E6}.a-en{background:#E1F2FC}.a-ma{background:#FFF3C9}
+.parents{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+</style>
+<script src="analytics-config.js"></script><script src="telemetry.js"></script>
+</head>
+<body>
+<div class="tibeb" aria-hidden="true"></div>
+<main class="wrap">
+ <div class="top"><span class="grow"></span><span class="stars" id="starTotal"></span><button class="btn ghost sm langb" type="button" data-lang data-t="lang"></button></div>
+ <div class="hero">
+  <svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#F5B700" stroke-width="7" stroke-linecap="round"><path d="M50 4v12M50 84v12M4 50h12M84 50h12M17 17l9 9M74 74l9 9M17 83l9-9M74 26l9-9"/></g><circle cx="50" cy="50" r="30" fill="#FFD54A"/><text x="50" y="62" text-anchor="middle" font-family="Fidel" font-weight="700" font-size="34" fill="#2E8B3E">ጎ</text></svg>
+  <div><h1><span class="am">ጎበዝ ልጆች</span> · Gobez Kids</h1><p data-t="tag"></p></div>
+ </div>
+ <div id="installSlot"></div>
+ <div class="grades" role="group" aria-labelledby="gradeL"><b id="gradeL" data-t="gradeL"></b><div class="seg" id="gradeSeg"></div></div>
+ <div id="subjects"></div>
+ <p style="text-align:center;margin-top:22px"><span class="voice">🔈 <span data-t="voice"></span></span></p>
+ <div class="parents"><a class="btn ghost sm" href="privacy.html" data-t="privacy"></a><a class="btn ghost sm" href="credits.html" data-t="credits"></a></div>
+</main>
+<p class="foot" data-t="copy"></p>
+<div class="tibeb" aria-hidden="true"></div>
+<script>/* Gobez Kids — shared helpers: language, storage, stars, celebration, practice coach, anonymous counting. */
+const $=id=>document.getElementById(id);
+const LS={get(k,d){try{const v=localStorage.getItem("gk."+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem("gk."+k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const COMMON_T={
+ en:{lang:"አማርኛ",home:"Home",playAgain:"Play again",next:"Next",skip:"Skip practice",practice:"Practice round",gotIt:"Let's play!",
+  voice:"Voices coming soon",starEarned:"You earned a star!",yay:["Great job!","Well done!","You did it!","Super!","Gobez!"],tryAgain:"Try again — you can do it!",
+  coachTitle:"Practice round",soon:"Coming soon",grade:"Grade",nextQ:"Next →"},
+ am:{lang:"English",home:"መነሻ",playAgain:"እንደገና ተጫወቱ",next:"ቀጥል",skip:"ልምምዱን ዝለሉ",practice:"የልምምድ ዙር",gotIt:"እንጫወት!",
+  voice:"ድምፅ በቅርቡ",starEarned:"ኮከብ አገኛችሁ!",yay:["ጎበዝ!","በጣም ጥሩ!","አደረጋችሁት!","ጎበዝ ልጆች!","ዋው!"],tryAgain:"እንደገና ሞክሩ፤ ትችላላችሁ!",
+  coachTitle:"የልምምድ ዙር",soon:"በቅርቡ",grade:"ክፍል",nextQ:"ቀጣይ →"}};
+let LANG=LS.get("lang",null)||((navigator.language||"").toLowerCase().indexOf("am")===0?"am":"en");
+let PAGE_T={en:{},am:{}};
+const t=k=>{const d=PAGE_T[LANG][k]!==undefined?PAGE_T[LANG][k]:COMMON_T[LANG][k];return d===undefined?k:d};
+const yay=()=>{const a=t("yay");return a[Math.floor(Math.random()*a.length)]};
+const onLang=[];
+function applyLang(){document.documentElement.lang=LANG;document.querySelectorAll("[data-t]").forEach(e=>{const v=t(e.dataset.t);if(typeof v==="string")e.textContent=v});
+ document.querySelectorAll("[data-tt]").forEach(e=>e.setAttribute("aria-label",t(e.dataset.tt)));if(PAGE_T[LANG].pageTitle)document.title=PAGE_T[LANG].pageTitle;onLang.forEach(f=>f())}
+function setLang(l){LANG=l;LS.set("lang",l);applyLang()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(b)setLang(LANG==="am"?"en":"am")});
+/* stars: one per finished board or round, kept per game and level */
+const stars={get(g,l){const s=LS.get("stars",{});return l==null?Object.keys(s).filter(k=>k.split(".")[0]===g).reduce((a,k)=>a+s[k],0):(s[g+"."+l]||0)},
+ add(g,l){const s=LS.get("stars",{});s[g+"."+l]=(s[g+"."+l]||0)+1;LS.set("stars",s)},
+ total(){const s=LS.get("stars",{});return Object.values(s).reduce((a,b)=>a+b,0)}};
+const STAR_SVG='<svg viewBox="0 0 36 36" class="star" aria-hidden="true"><path fill="#FFAC33" d="M27.287 34.627c-.404 0-.806-.124-1.152-.371L18 28.422l-8.135 5.834a1.97 1.97 0 0 1-2.312-.008 1.971 1.971 0 0 1-.721-2.194l3.034-9.792-8.062-5.681a1.98 1.98 0 0 1-.708-2.203 1.978 1.978 0 0 1 1.866-1.363L12.947 13l3.179-9.549a1.976 1.976 0 0 1 3.749 0L23 13l10.036.015a1.975 1.975 0 0 1 1.159 3.566l-8.062 5.681 3.034 9.792a1.97 1.97 0 0 1-.72 2.194 1.957 1.957 0 0 1-1.16.379z"/></svg>';
+/* celebration with a star */
+function party(title,sub,buttons){const old=$("party");if(old)old.remove();const p=document.createElement("div");p.className="party";p.id="party";p.setAttribute("role","dialog");p.setAttribute("aria-modal","true");
+ p.innerHTML='<div class="bx">'+STAR_SVG+'<div class="big"></div><div class="muted sub"></div><div class="row" style="justify-content:center"></div></div>';
+ p.querySelector(".big").textContent=title;p.querySelector(".sub").textContent=sub||"";const row=p.querySelector(".row");
+ buttons.forEach(([label,cls,fn])=>{const b=document.createElement("button");b.type="button";b.className="btn "+cls;b.textContent=label;b.onclick=()=>{p.remove();fn()};row.appendChild(b)});
+ document.body.appendChild(p);row.firstChild&&row.firstChild.focus();confetti()}
+function confetti(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cols=["#FFD54A","#5DBB63","#6EC6F0","#E0533D","#F5B700"];
+ for(let i=0;i<40;i++){const c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=cols[i%cols.length];c.style.animationDuration=(1.6+Math.random()*1.6)+"s";c.style.animationDelay=(Math.random()*.4)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3600)}}
+/* the practice-round coach: a box with text, optional buttons, and a glow on the thing to tap */
+const coach={el:null,
+ show(text,opts={}){let c=this.el;if(!c){c=document.createElement("div");c.className="coach";c.id="coach";c.innerHTML='<div class="ch"><b></b><button type="button" class="btn ghost sm skip"></button></div><p aria-live="polite"></p><div class="row btns"></div>';
+   (opts.parent||document.querySelector(".wrap")).appendChild(c);this.el=c}
+  c.querySelector("b").textContent=t("coachTitle");const sk=c.querySelector(".skip");sk.textContent=t("skip");sk.hidden=!opts.onSkip;sk.onclick=()=>opts.onSkip&&opts.onSkip();
+  c.querySelector("p").textContent=text;const row=c.querySelector(".btns");row.innerHTML="";
+  (opts.buttons||[]).forEach(([label,cls,fn])=>{const b=document.createElement("button");b.type="button";b.className="btn "+cls;b.textContent=label;b.onclick=fn;row.appendChild(b)});row.hidden=!(opts.buttons||[]).length},
+ glow(els){document.querySelectorAll(".glow").forEach(e=>e.classList.remove("glow"));(els||[]).forEach(e=>e&&e.classList.add("glow"));
+  const f=(els||[]).find(Boolean);if(f&&this.el){requestAnimationFrame(()=>{const r=f.getBoundingClientRect(),c=this.el.getBoundingClientRect();if(r.bottom>c.top-8||r.top<0)window.scrollBy({top:r.bottom-(c.top-24),behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})})}},
+ hide(){this.glow([]);if(this.el){this.el.remove();this.el=null}}};
+/* the Next button: after a right answer the screen waits until the child is ready */
+function showNext(cb){let w=$("nextWrap");if(!w){w=document.createElement("div");w.id="nextWrap";w.className="nextwrap";const m=$("msg");m.parentNode.insertBefore(w,m.nextSibling)}
+ w.innerHTML="";const b=document.createElement("button");b.type="button";b.className="btn go nextbtn";b.id="nextBtn";b.textContent=t("nextQ");b.onclick=()=>{w.innerHTML="";cb()};w.appendChild(b);
+ requestAnimationFrame(()=>{const r=b.getBoundingClientRect();if(r.bottom>innerHeight-8)b.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})})}
+function clearNext(){const w=$("nextWrap");if(w)w.innerHTML=""}
+onLang.push(()=>{const b=$("nextBtn");if(b)b.textContent=t("nextQ")});
+/* anonymous counting (only if the site has an analytics ID; never names or anything typed) */
+const track=(name,data)=>{try{if(window.gamesTrack)window.gamesTrack(name,Object.assign({lang:LANG},data||{}))}catch(e){}};
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{})}
+
+/* Shared round flow for the level-based games: level list, 5 questions per round, star, practice round. */
+function makeGame(o){/* o: {key, nQ, renderQ(), onLang()} */
+ const G={lvl:LS.get(o.key+".lvl",0),qi:0,tut:null,timers:[]};
+ G.later=(ms,f)=>G.timers.push(setTimeout(f,ms));
+ G.say=(s,cls)=>{const m=$("msg");m.textContent=s||"";m.className="msg "+(cls||"")};
+ G.prog=()=>{const p=$("prog");p.innerHTML="";for(let i=0;i<(o.nQ||5);i++){const e=document.createElement("i");if(i<G.qi)e.className="on";p.appendChild(e)}p.hidden=!!G.tut};
+ G.renderSetup=()=>{$("starCount").innerHTML="⭐ "+stars.get(o.key);const box=$("levels");box.innerHTML="";const L=t("levels");if(G.lvl>=L.length)G.lvl=0;
+  L.forEach((l,i)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed",String(i===G.lvl));b.innerHTML="<b></b><span></span>";
+   b.firstChild.textContent=(i+1)+". "+l[0]+(stars.get(o.key,i)?"  ⭐"+stars.get(o.key,i):"");b.lastChild.textContent=l[1];b.onclick=()=>{G.lvl=i;LS.set(o.key+".lvl",i);G.renderSetup()};box.appendChild(b)})};
+ G.show=v=>{clearNext();G.timers.forEach(clearTimeout);G.timers=[];$("v-setup").hidden=v!=="setup";$("v-play").hidden=v!=="play";if(v==="setup"){coach.hide();G.tut=null;G.renderSetup()}window.scrollTo(0,0)};
+ G.right=()=>{G.say(yay(),"yay");if(G.tut){coach.glow([]);coach.show(t("tutDone"),{buttons:[[t("gotIt"),"go",()=>G.tut.end("done")]]});return}
+  G.qi++;G.prog();showNext(()=>{if(G.qi>=(o.nQ||5))G.finish();else o.renderQ()})};
+ G.finish=()=>{stars.add(o.key,G.lvl);$("starCount").innerHTML="⭐ "+stars.get(o.key);track("board-done",{game:o.key,level:G.lvl+1});
+  party(t("roundDone"),t("starEarned"),[[t("playAgain"),"go",G.start],[t("newLvl"),"ghost",()=>G.show("setup")]])};
+ G.start=()=>{coach.hide();G.tut=null;G.qi=0;G.show("play");G.prog();o.renderQ();track("game-start",{game:o.key,level:G.lvl+1})};
+ G.startTut=()=>{G.qi=0;G.show("play");G.tut={stage:0,end:how=>{LS.set(o.key+"Tut",true);track("practice-end",{game:o.key,how});G.start()}};G.prog();track("practice-start",{game:o.key});o.renderQ();o.tutStart&&o.tutStart()};
+ G.coach=(k,glow)=>{coach.show(typeof k==="function"?k():t(k),{onSkip:()=>G.tut&&G.tut.end("skip")});coach.glow(glow||[])};
+ $("startBtn").onclick=()=>{if(!LS.get(o.key+"Tut",false))G.startTut();else G.start()};
+ $("tutBtn").onclick=G.startTut;$("backBtn").onclick=()=>G.show("setup");
+ onLang.push(()=>{G.renderSetup();if(!$("v-play").hidden&&o.onLang)o.onLang();if(G.tut&&coach.el){coach.el.querySelector("b").textContent=t("coachTitle");coach.el.querySelector(".skip").textContent=t("skip")}});
+ return G}
+</script>
+<script>
+const PICS={"1f414": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#E1E8ED\" d=\"M20.143 32.215a2.143 2.143 0 1 1-4.286 0 2.143 2.143 0 0 1 4.286 0z\"/><path fill=\"#E1E8ED\" d=\"M27.643 15.643C27.643 10.317 23.324 6 18 6a9.643 9.643 0 0 0-9.643 9.643c0 5.357-1.071 16.572-1.071 16.572a2.143 2.143 0 0 0 4.286 0 2.144 2.144 0 0 0 4.285 0h4.286a2.144 2.144 0 0 0 4.287 0 2.143 2.143 0 0 0 4.286 0c-.002 0-1.073-11.215-1.073-16.572z\"/><path fill=\"#DD2E44\" d=\"M20 3c0 2.209-1.447 6-2 6-.552 0-2-3.791-2-6s1.448-3 2-3c.553 0 2 .791 2 3zm-4.365 30c0-2.612 1.711-8 2.365-8 .653 0 2.365 5.388 2.365 8S18.652 36 18 36c-.654 0-2.365-.388-2.365-3z\"/><ellipse cx=\"18\" cy=\"22.5\" fill=\"#F4900C\" rx=\"7\" ry=\"4.5\"/><path fill=\"#FFAC33\" d=\"M25 22.5c0 1.5-14 1.5-14 0s4.791-4.5 7-4.5 7 3 7 4.5z\"/><circle cx=\"11.5\" cy=\"18.5\" r=\"1.5\" fill=\"#292F33\"/><circle cx=\"24.5\" cy=\"18.5\" r=\"1.5\" fill=\"#292F33\"/></svg>", "1f682": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#939598\" d=\"M0 34h36v2H0z\"/><path fill=\"#231F20\" d=\"M6 27h29v5H6z\"/><circle cx=\"6.999\" cy=\"32\" r=\"3\" fill=\"#58595B\"/><circle cx=\"12.999\" cy=\"32\" r=\"3\" fill=\"#58595B\"/><circle cx=\"6.999\" cy=\"32\" r=\"1.5\" fill=\"#A0041E\"/><circle cx=\"12.999\" cy=\"32\" r=\"1.5\" fill=\"#A0041E\"/><path fill=\"#DD2E44\" d=\"M5 33H1c-1 0-1.5-.5 0-2l4-4c1-1 2-2.001 2 0v4c0 2-.001 2-2 2z\"/><path fill=\"#231F20\" d=\"M8 20c0 3.313-1.343 6-3 6s-3-2.687-3-6c0-3.314 1.343-6 3-6s3 2.686 3 6z\"/><path fill=\"#6D6E71\" d=\"M11 15H7L5 7h8z\"/><path fill=\"#414042\" d=\"M26 25a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V15a2 2 0 0 1 2-2h18a2 2 0 0 1 2 2v10z\"/><path fill=\"#C1694F\" d=\"M13 26a1 1 0 1 1-2 0V13a1 1 0 0 1 2 0v13zm6 0a1 1 0 1 1-2 0V13a1 1 0 1 1 2 0v13z\"/><path fill=\"#808285\" d=\"M36 26a1 1 0 0 1-1 1H7a1 1 0 1 1 0-2h28a1 1 0 0 1 1 1z\"/><circle cx=\"29.999\" cy=\"31\" r=\"4\" fill=\"#58595B\"/><circle cx=\"21.999\" cy=\"31\" r=\"4\" fill=\"#58595B\"/><circle cx=\"29.999\" cy=\"31\" r=\"2\" fill=\"#A0041E\"/><circle cx=\"21.999\" cy=\"31\" r=\"2\" fill=\"#A0041E\"/><path fill=\"#414042\" d=\"M12 3H6a1 1 0 0 0-1 1v3h8V4a1 1 0 0 0-1-1z\"/><path fill=\"#BE1931\" d=\"M23 7h12v18H23z\"/><path fill=\"#A0041E\" d=\"M36 6a1 1 0 0 1-1 1H23a1 1 0 1 1 0-2h12a1 1 0 0 1 1 1z\"/><path fill=\"#EA596E\" d=\"M25 18h8v5h-8z\"/><path fill=\"#F4900C\" d=\"M30 32h-8c-.127 0-.253-.024-.371-.071L16.807 30H10a1 1 0 1 1 0-2h7c.128 0 .253.024.372.071L22.192 30H30a1 1 0 1 1 0 2z\"/><path fill=\"#55ACEE\" d=\"M33 10a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-5z\"/></svg>", "1f9e9": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#78B159\" d=\"M26.093 4.612c-.498.498-.629.839-.728 1.029-.66 1.266-1.455 1.676-2.78.351-.13-.13-4.087-4.267-4.741-5.017-.427-.49-1.081-.64-1.584-.262-.38.286-4.035 3.273-5.035 4.507-.774.955-.8 2.134-.079 2.856.326.326.727.449 1.151.578.552.169 1.763.068 2.47.775 1.133 1.133.54 2.924-.917 4.421-1.497 1.457-3.288 2.05-4.421.917-.708-.708-.606-1.918-.775-2.47-.129-.424-.252-.824-.578-1.151-.721-.721-1.9-.694-2.856.079-1.235 1-4.221 4.655-4.507 5.035-.379.503-.228 1.156.262 1.584.75.654 4.887 4.611 5.017 4.741 1.324 1.324.915 2.12-.351 2.78-.19.099-.53.229-1.029.728a3.744 3.744 0 0 0 5.295 5.295c.498-.498.629-.839.728-1.029.66-1.266 1.455-1.676 2.78-.351.13.13 4.087 4.267 4.741 5.017.427.49 1.081.64 1.584.262.38-.286 4.035-3.273 5.035-4.507.774-.955.8-2.134.079-2.856-.326-.326-.727-.449-1.151-.578-.552-.169-1.763-.068-2.47-.775-1.133-1.133-.54-2.924.917-4.421 1.497-1.457 3.288-2.05 4.421-.917.708.708.606 1.918.775 2.47.129.424.252.824.578 1.151.721.721 1.9.694 2.856-.079 1.235-1 4.221-4.655 4.507-5.035.379-.503.228-1.156-.262-1.584-.75-.654-4.887-4.611-5.017-4.741-1.324-1.324-.915-2.12.351-2.78.19-.099.53-.229 1.029-.728a3.744 3.744 0 0 0-5.295-5.295z\"/></svg>", "1f337": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#77B255\" d=\"M34.751 22c-3.382 0-11.9 3.549-15.751 7.158V17a1 1 0 1 0-2 0v12.341C13.247 25.669 4.491 22 1.052 22 .123 22 11.913 35.992 17 34.599V35a1 1 0 1 0 2 0v-.356C24.188 35.638 35.668 22 34.751 22z\"/><path fill=\"#EA596E\" d=\"M25 13.417C25 19.768 23.293 23 18 23s-7-3.232-7-9.583S16 0 18 0s7 7.066 7 13.417z\"/><path fill=\"#F4ABBA\" d=\"M22.795 2c-.48 0-4.106 14.271-4.803 19.279C17.246 16.271 13.481 2 13 2c-1 0-6 9-6 13s5.707 8 11 8 10.795-4 10.795-8-5-13-6-13z\"/></svg>", "1f34e": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#DD2E44\" d=\"M24 7c-3 0-3 1-6 1s-3-1-6-1c-4 0-9 2-9 9 0 11 6 20 10 20 3 0 3-1 5-1s2 1 5 1c4 0 10-9 10-20 0-7.001-5-9-9-9z\"/><path fill=\"#77B255\" d=\"M19 7s3-4 8-4c4 0 6 2 6 2s-4 3-7 3-7-1-7-1z\"/><path fill=\"#662113\" d=\"M18 10a1 1 0 0 1-1-1c0-3.441 1.2-6.615 3.293-8.707a.999.999 0 1 1 1.414 1.414C19.986 3.427 19 6.085 19 9a1 1 0 0 1-1 1z\"/></svg>", "1f50e": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#9AAAB4\" d=\"m13.503 19.693 2.828 2.828-4.95 4.95-2.828-2.829z\"/><path fill=\"#66757F\" d=\"m1.257 29.11 5.88-5.879a2 2 0 0 1 2.828 0l2.828 2.828a2 2 0 0 1 0 2.828l-5.879 5.879a4 4 0 1 1-5.657-5.656z\"/><circle cx=\"22.355\" cy=\"13.669\" r=\"13.5\" fill=\"#8899A6\"/><circle cx=\"22.355\" cy=\"13.669\" r=\"9.5\" fill=\"#BBDDF5\"/></svg>", "1f4c5": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#E0E7EC\" d=\"M36 32a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v23z\"/><path fill=\"#66757F\" d=\"M23.657 19.12H17.87c-1.22 0-1.673-.791-1.673-1.56 0-.791.429-1.56 1.673-1.56h8.184c1.154 0 1.628 1.04 1.628 1.628 0 .452-.249.927-.52 1.492l-5.607 11.395c-.633 1.266-.882 1.717-1.899 1.717-1.244 0-1.877-.949-1.877-1.605 0-.271.068-.474.226-.791l5.652-10.716zM10.889 19h-.5c-1.085 0-1.538-.731-1.538-1.5 0-.792.565-1.5 1.538-1.5h2.015c.972 0 1.515.701 1.515 1.605V30.47c0 1.13-.558 1.763-1.53 1.763s-1.5-.633-1.5-1.763V19z\"/><path fill=\"#DD2F45\" d=\"M34 0h-3.277c.172.295.277.634.277 1a2 2 0 0 1-4 0c0-.366.105-.705.277-1H8.723C8.895.295 9 .634 9 1a2 2 0 0 1-4 0c0-.366.105-.705.277-1H2a2 2 0 0 0-2 2v11h36V2a2 2 0 0 0-2-2z\"/><path fill=\"#F5F8FA\" d=\"M13.182 4.604c0-.5.32-.78.75-.78.429 0 .749.28.749.78v5.017h1.779c.51 0 .73.38.72.72a.7.7 0 0 1-.72.659h-2.498c-.49 0-.78-.319-.78-.819V4.604zm-6.91 0c0-.5.32-.78.75-.78s.75.28.75.78v3.488c0 .92.589 1.649 1.539 1.649.909 0 1.529-.769 1.529-1.649V4.604c0-.5.319-.78.749-.78s.75.28.75.78v3.568c0 1.679-1.38 2.949-3.028 2.949-1.669 0-3.039-1.25-3.039-2.949V4.604zM5.49 9.001c0 1.679-1.069 2.119-1.979 2.119-.689 0-1.839-.27-1.839-1.14 0-.269.23-.609.56-.609.4 0 .75.37 1.199.37.56 0 .56-.52.56-.84V4.604c0-.5.32-.78.749-.78.431 0 .75.28.75.78v4.397z\"/><path fill=\"#F4ABBA\" d=\"M32 10a1 1 0 1 0 2 0 1 1 0 0 0-2 0m0-3a1 1 0 1 0 2 0 1 1 0 0 0-2 0m-3 3a1 1 0 1 0 2 0 1 1 0 0 0-2 0m0-3a1 1 0 1 0 2 0 1 1 0 0 0-2 0m-3 3a1 1 0 1 0 2 0 1 1 0 0 0-2 0m0-3a1 1 0 1 0 2 0 1 1 0 0 0-2 0m-3 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0m0 3a1 1 0 1 0 2 0 1 1 0 0 0-2 0\"/></svg>", "1f426": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFAC33\" d=\"M8.916 12.88c-.111 1.652 1.768 3.126-.712 2.959-2.48-.167-7.836-2.533-7.768-3.53s3.708-2.757 6.188-2.59c2.48.166 2.404 1.508 2.292 3.161zm20.122 16.049a.966.966 0 0 0-.564.095c-2.325.232-3.225-1.885-3.225-1.885-.439-.336-.981-2.009-1.589-1.215l.187 1.402c.187 1.402 2.57 3.224 2.57 3.224l-1.215 1.589a1 1 0 1 0 1.589 1.215l.673-.88-.039.249a1 1 0 1 0 1.976.314l.47-2.963a1.003 1.003 0 0 0-.833-1.145zm-6.278.623a.984.984 0 0 0-.572.018c-2.335-.082-2.944-2.3-2.944-2.3-.39-.392-.703-2.123-1.412-1.417l-.003 1.414c-.003 1.414 2.115 3.539 2.115 3.539l-1.417 1.412a.999.999 0 1 0 1.411 1.417l.785-.782-.073.242a1 1 0 0 0 1.916.576l.862-2.873a.996.996 0 0 0-.668-1.246z\"/><path fill=\"#DD2E44\" d=\"M35.009 6.729c-.383-.17-.758-.057-1.05.244-.054.056-4.225 6.306-14.532 4.944-.34-.045 3.139 11.968 3.199 11.962.124-.014 3.07-.368 6.14-2.553 2.818-2.005 6.284-5.991 6.797-13.598.028-.418-.171-.828-.554-.999z\"/><path fill=\"#DD2E44\" d=\"M34.477 21.108c-.204-.336-.59-.56-.979-.471-1.293.295-3.197.543-4.53.453-6.357-.428-9.361-4.129-9.392-4.16-.275-.282.466 11.552.816 11.576 9.194.62 13.862-6.027 14.057-6.31.222-.326.233-.751.028-1.088z\"/><path fill=\"#DD2E44\" d=\"M24.586 19.016c-.371 5.51 1.316 9.861-4.194 9.489-5.51-.371-10.145-4.92-9.774-10.431s14.34-4.568 13.968.942z\"/><path fill=\"#DD2E44\" d=\"M23.257 12.412c-.353 5.235-3.922 9.257-9.156 8.904-5.235-.353-9.193-4.882-8.84-10.117.353-5.235 4.832-8.444 10.067-8.091 4.001.269 8.24 4.683 7.929 9.304z\"/><circle cx=\"10.67\" cy=\"8.989\" r=\"2\" fill=\"#292F33\"/><path fill=\"#A0041E\" d=\"M18.179 16.645s7.63 5.648 12.387-4.459c.396-.842 1.685.793.099 4.162s-8.175 6.44-12.04 1.536c-.815-1.035-.446-1.239-.446-1.239z\"/><path fill=\"#DD2E44\" d=\"M15.327 3.107s6.246.254 7.798-.477.136 2.932-3.262 3.789-4.536-3.312-4.536-3.312z\"/><path fill=\"#DD2E44\" d=\"M17.428 5.788s4.501.136 6.054-.594.136 2.932-3.262 3.789c-3.399.857-2.792-3.195-2.792-3.195z\"/></svg>", "1f68c": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#808285\" d=\"M0 21v7a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3v-7H0z\"/><path fill=\"#CCD6DD\" d=\"M36 22v-9c0-1.657-3.343-3-5-3H11c-8 0-11 2.343-11 4v8h36z\"/><path fill=\"#939598\" d=\"M0 22h36v3H0z\"/><path fill=\"#BCBEC0\" d=\"M7 25a5.998 5.998 0 0 0-5.95 5.263A2.978 2.978 0 0 0 3 31h10a6 6 0 0 0-6-6zm27.95 5.263A5.998 5.998 0 0 0 23 31h10c.749 0 1.425-.284 1.95-.737z\"/><circle cx=\"7\" cy=\"31\" r=\"4\"/><circle cx=\"7\" cy=\"31\" r=\"2\" fill=\"#99AAB5\"/><circle cx=\"29\" cy=\"31\" r=\"4\"/><circle cx=\"29\" cy=\"31\" r=\"2\" fill=\"#99AAB5\"/><path fill=\"#F4900C\" d=\"M0 25h1v2H0zm35-2h1v2h-1z\"/><path fill=\"#58595B\" d=\"M1 13h35v10H1z\"/><path fill=\"#292F33\" d=\"M2 13H.342C.11 13.344 0 13.685 0 14v11h2a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2z\"/><path fill=\"#55ACEE\" d=\"M31 20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h23a1 1 0 0 1 1 1v4z\"/><path fill=\"#FFAC33\" d=\"M35 19h1v2h-1z\"/><path fill=\"#55ACEE\" d=\"M1 15H0v8h1a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1z\"/></svg>", "1f438": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#C6E5B3\" d=\"M36 22c0 7.456-8.059 12-18 12S0 29.456 0 22 8.059 7 18 7s18 7.544 18 15z\"/><path fill=\"#77B255\" d=\"M31.755 12.676A5.986 5.986 0 0 0 34 8a6 6 0 0 0-11.851-1.315A11.785 11.785 0 0 0 18 5.927c-1.465 0-2.861.275-4.149.758A6 6 0 0 0 2 8c0 1.891.877 3.576 2.245 4.676C1.6 15.356 0 18.685 0 22c0 7.456 8.059 1 18 1s18 6.456 18-1c0-3.315-1.6-6.644-4.245-9.324z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"3.5\" fill=\"#FFF\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.5\" fill=\"#292F33\"/><circle cx=\"28.5\" cy=\"7.5\" r=\"3.5\" fill=\"#FFF\"/><circle cx=\"28.5\" cy=\"7.5\" r=\"1.5\" fill=\"#292F33\"/><circle cx=\"14\" cy=\"20\" r=\"1\" fill=\"#5C913B\"/><circle cx=\"22\" cy=\"20\" r=\"1\" fill=\"#5C913B\"/></svg>", "injera": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><circle cx=\"18\" cy=\"19\" r=\"16.5\" fill=\"#D8C3A0\"/><circle cx=\"18\" cy=\"18\" r=\"15.5\" fill=\"#EBD7B0\"/><g fill=\"#C8AE7E\"><circle cx=\"10\" cy=\"12\" r=\"1\"/><circle cx=\"14\" cy=\"9\" r=\".9\"/><circle cx=\"19\" cy=\"8\" r=\"1\"/><circle cx=\"24\" cy=\"10\" r=\".9\"/><circle cx=\"27\" cy=\"14\" r=\"1\"/><circle cx=\"8\" cy=\"17\" r=\".9\"/><circle cx=\"12\" cy=\"16\" r=\"1\"/><circle cx=\"16\" cy=\"13\" r=\".8\"/><circle cx=\"21\" cy=\"12.5\" r=\"1\"/><circle cx=\"25\" cy=\"18\" r=\".9\"/><circle cx=\"28\" cy=\"21\" r=\"1\"/><circle cx=\"9\" cy=\"22\" r=\"1\"/><circle cx=\"13\" cy=\"25\" r=\".9\"/><circle cx=\"18\" cy=\"28\" r=\"1\"/><circle cx=\"23\" cy=\"26\" r=\".9\"/><circle cx=\"26\" cy=\"24\" r=\".8\"/><circle cx=\"11\" cy=\"28\" r=\".8\"/><circle cx=\"21\" cy=\"31\" r=\".8\"/><circle cx=\"29.5\" cy=\"17\" r=\".7\"/><circle cx=\"6.5\" cy=\"13\" r=\".7\"/></g><ellipse cx=\"18\" cy=\"19.5\" rx=\"5\" ry=\"3.6\" fill=\"#C1440E\"/><ellipse cx=\"17\" cy=\"18.6\" rx=\"2.2\" ry=\"1.2\" fill=\"#E0662F\"/></svg>"};
+PAGE_T={
+ en:{tag:"Learning games for Grades 1–3 · Amharic, English and math",gradeL:"Grade",all:"All",privacy:"For parents: privacy",credits:"Credits",
+  copy:"© 2026 Gobez Kids. Free to play, no ads, no sign-up.",
+  subj:[["ፊደል · Amharic letters","#5DBB63","a-am"],["ABC · English letters","#6EC6F0","a-en"],["123 · Math","#F5B700","a-ma"]],gr:g=>"Grade "+g},
+ am:{tag:"ከ1ኛ እስከ 3ኛ ክፍል የመማሪያ ጨዋታዎች · አማርኛ፣ እንግሊዝኛ እና ሒሳብ",gradeL:"ክፍል",all:"ሁሉም",privacy:"ለወላጆች፦ ግላዊነት",credits:"ምስጋና",
+  copy:"© 2026 ጎበዝ ልጆች። በነጻ፣ ያለ ማስታወቂያ፣ ያለ ምዝገባ።",
+  subj:[["ፊደል · የአማርኛ ፊደላት","#5DBB63","a-am"],["ABC · የእንግሊዝኛ ፊደላት","#6EC6F0","a-en"],["123 · ሒሳብ","#F5B700","a-ma"]],gr:g=>g+"ኛ ክፍል"}};
+/* [subject, en name, am name, grades, picture, link or null (coming soon), game key for stars] */
+const GAMES=[
+ [0,"Fidel Memory","ፊደልና ስዕል",[1],"1f414","fidel/index.html","fidel"],[0,"Letter-family train","የፊደል ባቡር",[1],"1f682","ltrain/index.html","ltrain"],
+ [0,"Word builder","ቃል መሥሪያ",[1,2],"1f9e9","amword/index.html","amword"],[0,"Sentence garden","የዓረፍተ ነገር አትክልት",[2,3],"1f337","sentence/index.html","sentence"],
+ [1,"ABC Memory","ABC ማዛመጃ",[1],"1f34e","abc/index.html","abc"],[1,"First letter","የመጀመሪያው ፊደል",[1,2],"1f50e","first/index.html","first"],
+ [1,"Word builder","የእንግሊዝኛ ቃል መሥሪያ",[1,2],"1f9e9","abcword/index.html","enword"],[1,"Days train","የቀናት ባቡር",[2],"1f4c5","days/index.html","days"],
+ [2,"Count the garden","የአትክልት ቦታ ቆጠራ",[1],"1f426","count/index.html","count"],[2,"Animal bus","የእንስሳት አውቶቡስ",[1,2],"1f68c","bus/index.html","bus"],
+ [2,"Frog jumps","የእንቁራሪት ዝላይ",[1,2,3],"1f438","frog/index.html","frog"],[2,"Sharing injera","እንጀራ እናካፍል",[2,3],"injera","share/index.html","share"]];
+let grade=LS.get("grade",0);
+function render(){$("starTotal").innerHTML="⭐ "+stars.total();
+ const gs=$("gradeSeg");gs.innerHTML="";[0,1,2,3].forEach(g=>{const b=document.createElement("button");b.type="button";b.textContent=g?String(g):t("all");b.setAttribute("aria-pressed",String(g===grade));b.onclick=()=>{grade=g;LS.set("grade",g);render()};gs.appendChild(b)});
+ const box=$("subjects");box.innerHTML="";
+ t("subj").forEach((sj,si)=>{const list=GAMES.filter(x=>x[0]===si&&(!grade||x[3].includes(grade)));if(!list.length)return;
+  const h=document.createElement("div");h.className="subj";h.innerHTML='<span class="dot"></span><h2></h2>';h.firstChild.style.background=sj[1];h.lastChild.textContent=sj[0];box.appendChild(h);
+  const grid=document.createElement("div");grid.className="games";
+  list.forEach(g=>{const el=document.createElement(g[5]?"a":"div");el.className="game"+(g[5]?"":" soon");if(g[5])el.href=g[5];
+   el.innerHTML='<div class="art '+sj[2]+'">'+(PICS[g[4]]||"").replace("<svg ",'<svg aria-hidden="true" ')+'</div><div class="tx"><b></b><div class="meta"></div></div>';
+   el.querySelector("b").textContent=LANG==="am"?g[2]:g[1];const meta=el.querySelector(".meta");
+   const gr=document.createElement("span");gr.textContent=g[3].length>1?(LANG==="am"?g[3][0]+"–"+g[3][g[3].length-1]+"ኛ ክፍል":"Grades "+g[3][0]+"–"+g[3][g[3].length-1]):t("gr")(g[3][0]);meta.appendChild(gr);
+   if(!g[5]){const s=document.createElement("span");s.className="s";s.textContent=t("soon");meta.appendChild(s)}
+   else if(stars.get(g[6])){const s=document.createElement("span");s.textContent="⭐ "+stars.get(g[6]);meta.appendChild(s)}
+   grid.appendChild(el)});box.appendChild(grid)})}
+onLang.push(render);applyLang();
+</script>
+<script>/* "Add to your home screen" — one tap where the browser allows it (Chrome, Edge, Samsung Internet on Android and computers),
+   a short picture guide on iPhone/iPad (Apple allows no one-tap install) and on Mac Safari (File → Add to Dock).
+   Shows only inside an element with id="installSlot", never once the games are installed, and "Not now" hides it for 14 days. */
+(function(){
+ var LATER="games.installLater",dp=null,guideOpen=false;
+ var ua=navigator.userAgent||"",touchMac=/Macintosh/.test(ua)&&navigator.maxTouchPoints>1;
+ var ios=/iPad|iPhone|iPod/.test(ua)||touchMac;
+ var macSafari=!ios&&/Macintosh/.test(ua)&&/Safari/.test(ua)&&!/Chrome|Chromium|CriOS|Edg|Firefox|FxiOS|OPR/.test(ua);
+ function standalone(){try{return (window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true}catch(e){return false}}
+ function later(){try{return Date.now()-(+localStorage.getItem(LATER)||0)<14*864e5}catch(e){return false}}
+ function lang(){return (document.documentElement.lang||"en").indexOf("am")===0?"am":"en"}
+ var T={
+  en:{t:"Add Gobez Kids to your home screen",s:"Open them with one tap, like an app. They work without internet too.",b:"Add to home screen",n:"Not now",
+      g:"Add to your home screen",i1:"Tap the Share button",i1b:"the square with an arrow, at the bottom of the screen on iPhone (top right on iPad)",
+      i2:"Scroll down and tap “Add to Home Screen”",i3:"Tap “Add”. The games appear on your home screen.",
+      m1:"In Safari's menu bar, choose File → Add to Dock",m2:"Click “Add”. The games open from your Dock like an app.",c:"Got it"},
+  am:{t:"ጎበዝ ልጆችን በመነሻ ገጽ ላይ ያስቀምጡ",s:"እንደ መተግበሪያ በአንድ ንክኪ ይከፈታሉ። ያለ ኢንተርኔትም ይሠራሉ።",b:"መነሻ ገጽ ላይ አስቀምጥ",n:"አሁን አይደለም",
+      g:"በመነሻ ገጽዎ ላይ ያስቀምጡ",i1:"«አጋራ» (Share) የሚለውን ቁልፍ ይንኩ",i1b:"ቀስት ያለበት ካሬ፤ በአይፎን ከታች፣ በአይፓድ ከላይ በቀኝ በኩል",
+      i2:"ወደ ታች ሄደው «Add to Home Screen» ይንኩ",i3:"«Add» ይንኩ። ጨዋታዎቹ በመነሻ ገጽዎ ላይ ይታያሉ።",
+      m1:"በሳፋሪ ምናሌ ላይ File → Add to Dock ይምረጡ",m2:"«Add» ይጫኑ። ጨዋታዎቹ ከዶክ እንደ መተግበሪያ ይከፈታሉ።",c:"ገባኝ"}};
+ var SHARE='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="vertical-align:-4px"><path d="M12 3v12M8 7l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11v9h12v-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+ var css='.inst{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;padding:14px 16px;border-radius:18px;border:3px solid #F5B700;background:var(--surface,#FFFDF7);color:var(--ink,#1C2924);margin:4px 0 12px}'+
+  '.inst img{width:56px;height:56px;border-radius:14px;flex:none}.inst .tx{flex:1 1 220px;display:flex;flex-direction:column;gap:2px;min-width:0}.inst .tx b{font-size:1.1rem}.inst .tx span{color:var(--muted,#58655F)}'+
+  '.inst .bt{display:flex;gap:8px;flex-wrap:wrap}.inst button,.instg button{min-height:52px;padding:8px 20px;border-radius:999px;font:inherit;font-weight:700;cursor:pointer;border:2px solid #2E8B3E}'+
+  '.inst .go,.instg .go{background:#2E8B3E;color:#fff}.inst .no{background:transparent;color:inherit;border-color:var(--line,#CFE6F3)}'+
+  '.inst button:focus-visible,.instg button:focus-visible{outline:3px solid #F5B700;outline-offset:3px}'+
+  '.instg{position:fixed;inset:0;z-index:90;background:rgba(10,20,16,.6);display:grid;grid-template-columns:minmax(0,520px);justify-content:center;align-items:center;padding:16px}'+
+  '.instg .bx{background:var(--surface,#FFFDF7);color:var(--ink,#1C2924);border:3px solid #F5B700;border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:14px}'+
+  '.instg h2{margin:0;font-size:1.4rem}.instg ol{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:12px}'+
+  '.instg li{display:flex;gap:12px;align-items:flex-start}.instg li .n{flex:none;width:34px;height:34px;border-radius:50%;background:#2E8B3E;color:#fff;display:grid;place-items:center;font-weight:700}'+
+  '.instg li small{display:block;color:var(--muted,#58655F)}';
+ function addCss(){if(document.getElementById("instCss"))return;var s=document.createElement("style");s.id="instCss";s.textContent=css;document.head.appendChild(s)}
+ function icon(){var l=document.querySelector('link[rel="apple-touch-icon"],link[rel="icon"]');return l?l.getAttribute("href"):""}
+ function canShow(){return !standalone()&&!later()&&!!(dp||ios||macSafari)}
+ function render(){var slot=document.getElementById("installSlot");if(!slot)return;slot.innerHTML="";if(!canShow())return;addCss();var t=T[lang()];
+  var box=document.createElement("div");box.className="inst";box.setAttribute("role","region");box.setAttribute("aria-label",t.t);
+  var ic=icon();if(ic){var im=document.createElement("img");im.src=ic;im.alt="";box.appendChild(im)}
+  var tx=document.createElement("div");tx.className="tx";var b1=document.createElement("b");b1.textContent=t.t;var s1=document.createElement("span");s1.textContent=t.s;tx.appendChild(b1);tx.appendChild(s1);box.appendChild(tx);
+  var bt=document.createElement("div");bt.className="bt";var go=document.createElement("button");go.type="button";go.className="go";go.textContent="⬇ "+t.b;go.onclick=install;
+  var no=document.createElement("button");no.type="button";no.className="no";no.textContent=t.n;no.onclick=function(){try{localStorage.setItem(LATER,String(Date.now()))}catch(e){}render()};
+  bt.appendChild(go);bt.appendChild(no);box.appendChild(bt);slot.appendChild(box)}
+ function install(){if(dp){var e=dp;e.prompt();(e.userChoice||Promise.resolve({})).then(function(r){if(r&&r.outcome==="accepted")dp=null;render()});return}guide()}
+ function guide(){addCss();guideOpen=true;var old=document.getElementById("instGuide");if(old)old.remove();var t=T[lang()];
+  var g=document.createElement("div");g.className="instg";g.id="instGuide";g.setAttribute("role","dialog");g.setAttribute("aria-modal","true");
+  var steps=ios?[[t.i1+" "+SHARE,t.i1b],[t.i2,""],[t.i3,""]]:[[t.m1,""],[t.m2,""]];
+  g.innerHTML='<div class="bx"><h2></h2><ol></ol><div><button type="button" class="go"></button></div></div>';
+  g.querySelector("h2").textContent=t.g;var ol=g.querySelector("ol");
+  steps.forEach(function(s,i){var li=document.createElement("li");li.innerHTML='<span class="n">'+(i+1)+'</span><span><span class="m"></span><small></small></span>';
+   var m=li.querySelector(".m");if(s[0].indexOf("<svg")>=0){var parts=s[0].split(SHARE);m.textContent=parts[0];m.insertAdjacentHTML("beforeend",SHARE)}else m.textContent=s[0];
+   li.querySelector("small").textContent=s[1];ol.appendChild(li)});
+  var c=g.querySelector("button");c.textContent=t.c;c.onclick=close;g.addEventListener("click",function(e){if(e.target===g)close()});
+  document.body.appendChild(g);c.focus()}
+ function close(){guideOpen=false;var g=document.getElementById("instGuide");if(g)g.remove()}
+ document.addEventListener("keydown",function(e){if(e.key==="Escape"&&guideOpen)close()});
+ window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;render()});
+ window.addEventListener("appinstalled",function(){dp=null;render()});
+ new MutationObserver(function(){render();if(guideOpen)guide()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);else render();
+ window.gamesInstall={render:render,guide:guide};
+})();
+</script>
+</body>
+</html>

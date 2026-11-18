@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gobez Kids</title>
+<meta name="theme-color" content="#6EC6F0">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../icon-192.png"><link rel="apple-touch-icon" href="../icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gobez Kids">
+<style>@font-face{font-family:"Andika";font-weight:400;font-display:swap;src:url(../fonts/andika-400.woff2) format("woff2")}
+@font-face{font-family:"Andika";font-weight:700;font-display:swap;src:url(../fonts/andika-700.woff2) format("woff2")}
+@font-face{font-family:"Fidel";font-weight:400;font-display:swap;src:url(../fonts/fidel-400.woff2) format("woff2")}
+@font-face{font-family:"Fidel";font-weight:700;font-display:swap;src:url(../fonts/fidel-700.woff2) format("woff2")}
+:root{--sky:#BFE6FA;--sky2:#6EC6F0;--sky3:#2D8FC4;--sun:#FFD54A;--sun2:#F5B700;--leaf:#5DBB63;--leaf2:#2E8B3E;--ink:#1F3A4D;--muted:#4F6577;
+ --bg:#EAF7FE;--surface:#FFFFFF;--line:#CFE6F3;--red:#E0533D;--r:24px;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Andika","Fidel",system-ui,sans-serif;font-size:19px;line-height:1.45;min-height:100vh;display:flex;flex-direction:column}
+:lang(am) body,body:lang(am){font-family:"Fidel","Andika",system-ui,sans-serif}
+.fidel{font-family:"Fidel",system-ui,sans-serif}.latin{font-family:"Andika",system-ui,sans-serif}
+button{font:inherit;color:inherit}
+a{color:var(--sky3)}
+[hidden]{display:none!important}
+/* the Ethiopian pattern border (ጥበብ) */
+.tibeb{height:18px;flex:none;background-color:var(--leaf2);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='18'%3E%3Crect width='28' height='3' fill='%232D8FC4'/%3E%3Crect y='15' width='28' height='3' fill='%232D8FC4'/%3E%3Cpath d='M14 4.5l4.5 4.5-4.5 4.5-4.5-4.5z' fill='%23FFD54A'/%3E%3Cpath d='M0 4.5l4.5 4.5L0 13.5zM28 4.5l-4.5 4.5 4.5 4.5z' fill='%23FFD54A'/%3E%3Ccircle cx='14' cy='9' r='1.4' fill='%23E0533D'/%3E%3C/svg%3E");background-size:28px 18px}
+.wrap{width:100%;max-width:980px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));flex:1}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.top .grow{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:8px 22px;border-radius:999px;border:3px solid transparent;background:var(--surface);color:var(--ink);font-weight:700;font-size:1.05rem;cursor:pointer;text-decoration:none;box-shadow:0 3px 0 rgba(31,58,77,.15);transition:transform .1s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(31,58,77,.15)}
+.btn:focus-visible,.tile:focus-visible,.pick:focus-visible{outline:4px solid var(--sun2);outline-offset:3px}
+.btn.go{background:var(--leaf2);color:#fff}.btn.sun{background:var(--sun);color:var(--ink)}.btn.sky{background:var(--sky3);color:#fff}
+.btn.ghost{background:transparent;border-color:var(--line);box-shadow:none}.btn.sm{min-height:46px;padding:6px 16px;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:default}
+.langb{min-width:96px}
+.panel{background:var(--surface);border-radius:var(--r);padding:18px;box-shadow:0 4px 0 rgba(31,58,77,.08);border:2px solid var(--line)}
+.stack{display:flex;flex-direction:column;gap:12px}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+h1,h2,h3{margin:0;line-height:1.2}
+.muted{color:var(--muted)}.small{font-size:.9rem}
+.seg{display:flex;flex-wrap:wrap;gap:10px}
+.seg button{min-height:56px;padding:8px 18px;border-radius:18px;border:3px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--leaf2);background:#E4F6E6}
+.stars{display:inline-flex;align-items:center;gap:4px;font-weight:700;background:#FFF6D6;border-radius:999px;padding:4px 12px;border:2px solid var(--sun)}
+.pic{display:block;width:100%;height:100%}
+.voice{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);background:var(--surface);border:2px dashed var(--sky2);border-radius:999px;padding:6px 14px}
+/* coach (practice round) */
+.coach{position:sticky;bottom:8px;z-index:45;margin-top:14px;background:var(--surface);border:3px solid var(--sun2);border-left-width:12px;border-radius:var(--r);padding:12px 16px;box-shadow:0 8px 22px rgba(31,58,77,.22);display:flex;flex-direction:column;gap:8px}
+.coach .ch{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.coach p{margin:0;font-size:1.15rem}
+.glow{outline:5px solid var(--sun2)!important;outline-offset:4px;animation:glow 1s ease-in-out infinite alternate}
+@keyframes glow{from{outline-color:var(--sun2)}to{outline-color:rgba(245,183,0,.2)}}
+/* celebration */
+.party{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(31,58,77,.45)}
+.party .bx{background:var(--surface);border-radius:28px;padding:24px;max-width:440px;width:100%;text-align:center;border:4px solid var(--sun);display:flex;flex-direction:column;gap:14px;align-items:center}
+.party .big{font-size:2.6rem;font-weight:700;color:var(--leaf2)}
+.party .star{width:96px;height:96px;animation:pop .6s ease-out}
+@keyframes pop{0%{transform:scale(.2) rotate(-30deg)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.confetti{position:fixed;top:-20px;width:12px;height:18px;border-radius:4px;z-index:49;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+.msg{min-height:1.6em;font-weight:700;font-size:1.15rem;text-align:center}
+.msg.yay{color:var(--leaf2)}
+.nextwrap{display:flex;justify-content:center;margin:8px 0}.nextbtn{min-width:200px;font-size:1.25rem;min-height:62px}.msg.hmm{color:var(--sky3)}
+.foot{font-size:.9rem;color:var(--muted);text-align:center;padding:6px 16px 14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* shared game pieces: level list, progress dots, answer buttons */
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.levels button{min-height:84px;border-radius:20px;border:3px solid var(--line);background:var(--surface);text-align:left;padding:12px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 3px 0 rgba(31,58,77,.1)}
+.levels button b{font-size:1.15rem}.levels button span{color:var(--muted);font-size:.9rem}
+.levels button[aria-pressed="true"]{border-color:var(--leaf2);background:#E4F6E6}
+.prog{display:flex;gap:8px;justify-content:center;margin:4px 0 10px}
+.prog i{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--line);display:block}.prog i.on{background:var(--sun);border-color:var(--sun2)}
+.q{font-size:1.3rem;font-weight:700;text-align:center;min-height:1.6em;margin:2px 0 10px}
+.choices{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0 4px}
+.choice{min-width:84px;min-height:84px;padding:6px 14px;border-radius:22px;border:0;background:var(--sun);font-size:2.2rem;font-weight:700;cursor:pointer;box-shadow:0 5px 0 var(--sun2);color:var(--ink)}
+.choice:active{transform:translateY(3px);box-shadow:0 2px 0 var(--sun2)}
+.choice.used{visibility:hidden}.choice.no{opacity:.4}.choice.ok{background:var(--leaf);box-shadow:0 5px 0 var(--leaf2);color:#fff}
+@media (max-width:420px){.choice{min-width:70px;min-height:70px;font-size:1.9rem}}
+
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.levels button{min-height:84px;border-radius:20px;border:3px solid var(--line);background:var(--surface);text-align:left;padding:12px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 3px 0 rgba(31,58,77,.1)}
+.levels button b{font-size:1.15rem}.levels button span{color:var(--muted);font-size:.9rem}
+.levels button[aria-pressed="true"]{border-color:var(--leaf2);background:#E4F6E6}
+.prog{display:flex;gap:8px;justify-content:center;margin:4px 0 10px}
+.prog i{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--line);display:block}.prog i.on{background:var(--sun);border-color:var(--sun2)}
+.q{font-size:1.25rem;font-weight:700;text-align:center;min-height:2.6em;margin:2px 0 8px}
+.pond{border-radius:var(--r);padding:14px;background:radial-gradient(circle at 20% 10%,#9FDBF7,#5FB8E4);border:3px solid #fff;box-shadow:0 4px 0 rgba(31,58,77,.1)}
+.pads{display:grid;grid-template-columns:repeat(var(--cols,5),minmax(0,1fr));gap:10px;max-width:760px;margin:0 auto}
+.pad{position:relative;aspect-ratio:1;border:0;border-radius:50% 50% 50% 8%;background:#5DBB63;box-shadow:inset 0 -6px 0 #3E9A45,0 3px 0 rgba(31,58,77,.15);cursor:pointer;font-weight:700;font-size:clamp(1.1rem,4.5vw,1.6rem);color:#fff;display:grid;place-items:end center;padding-bottom:8%;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.pad.start{background:#F5B700;box-shadow:inset 0 -6px 0 #C99600}
+.pad.end{outline:5px dashed #fff;outline-offset:-9px}
+.fans{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:12px 0 0}
+.fans button{width:84px;height:84px;border-radius:24px;font-size:2.2rem;font-weight:700;border:3px solid var(--line);background:var(--surface);cursor:pointer;box-shadow:0 4px 0 rgba(31,58,77,.12)}
+.fans button.no{opacity:.35}.fans button.ok{background:var(--leaf);border-color:var(--leaf2);color:#fff}
+.pad.ok{background:var(--sky3);box-shadow:inset 0 -6px 0 #1D6F9C}
+.pad.no{opacity:.5}
+.pad .fr{position:absolute;left:20%;top:2%;width:60%;height:60%;pointer-events:none;transition:transform .2s}
+.pad .fr svg{width:100%;height:100%}
+.pad .hopn{position:absolute;top:-10px;right:-6px;min-width:26px;height:26px;border-radius:999px;background:var(--red);color:#fff;font-size:.9rem;display:grid;place-items:center;border:2px solid #fff;text-shadow:none}
+.frog-jump .fr{animation:jump .38s ease-out}
+@keyframes jump{0%{transform:translateY(0) scale(.8)}50%{transform:translateY(-26%) scale(1.1)}100%{transform:none}}
+</style>
+<script src="../analytics-config.js"></script><script src="../telemetry.js"></script>
+</head>
+<body>
+<div class="tibeb" aria-hidden="true"></div>
+<main class="wrap">
+ <div class="top">
+  <a class="btn ghost sm" href="../index.html">← <span data-t="home"></span></a>
+  <h1 class="grow" style="font-size:clamp(1.15rem,4.6vw,1.5rem);flex:1 1 120px" data-t="title"></h1>
+  <span class="stars" id="starCount" aria-live="polite"></span>
+  <button class="btn ghost sm langb" type="button" data-lang data-t="lang"></button>
+ </div>
+ <section id="v-setup" class="panel stack">
+  <h2 data-t="chooseLvl"></h2>
+  <div class="levels" id="levels"></div>
+  <div class="row"><button class="btn go" type="button" id="startBtn" data-t="start"></button><button class="btn ghost" type="button" id="tutBtn" data-t="practice"></button></div>
+  <span class="voice">🔈 <span data-t="voice"></span></span>
+ </section>
+ <section id="v-play" hidden>
+  <div class="prog" id="prog" aria-hidden="true"></div>
+  <div class="q" id="q" aria-live="polite"></div>
+  <div class="pond"><div class="pads" id="pads"></div></div>
+  <div class="fans" id="fans"></div>
+  <div class="msg" id="msg" aria-live="polite"></div>
+  <div class="row" style="justify-content:center;margin-top:10px"><button class="btn sun sm" type="button" id="showBtn" data-t="showMe"></button><button class="btn ghost sm" type="button" id="backBtn" data-t="newLvl"></button></div>
+ </section>
+</main>
+<div class="tibeb" aria-hidden="true"></div>
+<script>/* Gobez Kids — shared helpers: language, storage, stars, celebration, practice coach, anonymous counting. */
+const $=id=>document.getElementById(id);
+const LS={get(k,d){try{const v=localStorage.getItem("gk."+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem("gk."+k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const COMMON_T={
+ en:{lang:"አማርኛ",home:"Home",playAgain:"Play again",next:"Next",skip:"Skip practice",practice:"Practice round",gotIt:"Let's play!",
+  voice:"Voices coming soon",starEarned:"You earned a star!",yay:["Great job!","Well done!","You did it!","Super!","Gobez!"],tryAgain:"Try again — you can do it!",
+  coachTitle:"Practice round",soon:"Coming soon",grade:"Grade",nextQ:"Next →"},
+ am:{lang:"English",home:"መነሻ",playAgain:"እንደገና ተጫወቱ",next:"ቀጥል",skip:"ልምምዱን ዝለሉ",practice:"የልምምድ ዙር",gotIt:"እንጫወት!",
+  voice:"ድምፅ በቅርቡ",starEarned:"ኮከብ አገኛችሁ!",yay:["ጎበዝ!","በጣም ጥሩ!","አደረጋችሁት!","ጎበዝ ልጆች!","ዋው!"],tryAgain:"እንደገና ሞክሩ፤ ትችላላችሁ!",
+  coachTitle:"የልምምድ ዙር",soon:"በቅርቡ",grade:"ክፍል",nextQ:"ቀጣይ →"}};
+let LANG=LS.get("lang",null)||((navigator.language||"").toLowerCase().indexOf("am")===0?"am":"en");
+let PAGE_T={en:{},am:{}};
+const t=k=>{const d=PAGE_T[LANG][k]!==undefined?PAGE_T[LANG][k]:COMMON_T[LANG][k];return d===undefined?k:d};
+const yay=()=>{const a=t("yay");return a[Math.floor(Math.random()*a.length)]};
+const onLang=[];
+function applyLang(){document.documentElement.lang=LANG;document.querySelectorAll("[data-t]").forEach(e=>{const v=t(e.dataset.t);if(typeof v==="string")e.textContent=v});
+ document.querySelectorAll("[data-tt]").forEach(e=>e.setAttribute("aria-label",t(e.dataset.tt)));if(PAGE_T[LANG].pageTitle)document.title=PAGE_T[LANG].pageTitle;onLang.forEach(f=>f())}
+function setLang(l){LANG=l;LS.set("lang",l);applyLang()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(b)setLang(LANG==="am"?"en":"am")});
+/* stars: one per finished board or round, kept per game and level */
+const stars={get(g,l){const s=LS.get("stars",{});return l==null?Object.keys(s).filter(k=>k.split(".")[0]===g).reduce((a,k)=>a+s[k],0):(s[g+"."+l]||0)},
+ add(g,l){const s=LS.get("stars",{});s[g+"."+l]=(s[g+"."+l]||0)+1;LS.set("stars",s)},
+ total(){const s=LS.get("stars",{});return Object.values(s).reduce((a,b)=>a+b,0)}};
+const STAR_SVG='<svg viewBox="0 0 36 36" class="star" aria-hidden="true"><path fill="#FFAC33" d="M27.287 34.627c-.404 0-.806-.124-1.152-.371L18 28.422l-8.135 5.834a1.97 1.97 0 0 1-2.312-.008 1.971 1.971 0 0 1-.721-2.194l3.034-9.792-8.062-5.681a1.98 1.98 0 0 1-.708-2.203 1.978 1.978 0 0 1 1.866-1.363L12.947 13l3.179-9.549a1.976 1.976 0 0 1 3.749 0L23 13l10.036.015a1.975 1.975 0 0 1 1.159 3.566l-8.062 5.681 3.034 9.792a1.97 1.97 0 0 1-.72 2.194 1.957 1.957 0 0 1-1.16.379z"/></svg>';
+/* celebration with a star */
+function party(title,sub,buttons){const old=$("party");if(old)old.remove();const p=document.createElement("div");p.className="party";p.id="party";p.setAttribute("role","dialog");p.setAttribute("aria-modal","true");
+ p.innerHTML='<div class="bx">'+STAR_SVG+'<div class="big"></div><div class="muted sub"></div><div class="row" style="justify-content:center"></div></div>';
+ p.querySelector(".big").textContent=title;p.querySelector(".sub").textContent=sub||"";const row=p.querySelector(".row");
+ buttons.forEach(([label,cls,fn])=>{const b=document.createElement("button");b.type="button";b.className="btn "+cls;b.textContent=label;b.onclick=()=>{p.remove();fn()};row.appendChild(b)});
+ document.body.appendChild(p);row.firstChild&&row.firstChild.focus();confetti()}
+function confetti(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const cols=["#FFD54A","#5DBB63","#6EC6F0","#E0533D","#F5B700"];
+ for(let i=0;i<40;i++){const c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=cols[i%cols.length];c.style.animationDuration=(1.6+Math.random()*1.6)+"s";c.style.animationDelay=(Math.random()*.4)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3600)}}
+/* the practice-round coach: a box with text, optional buttons, and a glow on the thing to tap */
+const coach={el:null,
+ show(text,opts={}){let c=this.el;if(!c){c=document.createElement("div");c.className="coach";c.id="coach";c.innerHTML='<div class="ch"><b></b><button type="button" class="btn ghost sm skip"></button></div><p aria-live="polite"></p><div class="row btns"></div>';
+   (opts.parent||document.querySelector(".wrap")).appendChild(c);this.el=c}
+  c.querySelector("b").textContent=t("coachTitle");const sk=c.querySelector(".skip");sk.textContent=t("skip");sk.hidden=!opts.onSkip;sk.onclick=()=>opts.onSkip&&opts.onSkip();
+  c.querySelector("p").textContent=text;const row=c.querySelector(".btns");row.innerHTML="";
+  (opts.buttons||[]).forEach(([label,cls,fn])=>{const b=document.createElement("button");b.type="button";b.className="btn "+cls;b.textContent=label;b.onclick=fn;row.appendChild(b)});row.hidden=!(opts.buttons||[]).length},
+ glow(els){document.querySelectorAll(".glow").forEach(e=>e.classList.remove("glow"));(els||[]).forEach(e=>e&&e.classList.add("glow"));
+  const f=(els||[]).find(Boolean);if(f&&this.el){requestAnimationFrame(()=>{const r=f.getBoundingClientRect(),c=this.el.getBoundingClientRect();if(r.bottom>c.top-8||r.top<0)window.scrollBy({top:r.bottom-(c.top-24),behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})})}},
+ hide(){this.glow([]);if(this.el){this.el.remove();this.el=null}}};
+/* the Next button: after a right answer the screen waits until the child is ready */
+function showNext(cb){let w=$("nextWrap");if(!w){w=document.createElement("div");w.id="nextWrap";w.className="nextwrap";const m=$("msg");m.parentNode.insertBefore(w,m.nextSibling)}
+ w.innerHTML="";const b=document.createElement("button");b.type="button";b.className="btn go nextbtn";b.id="nextBtn";b.textContent=t("nextQ");b.onclick=()=>{w.innerHTML="";cb()};w.appendChild(b);
+ requestAnimationFrame(()=>{const r=b.getBoundingClientRect();if(r.bottom>innerHeight-8)b.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})})}
+function clearNext(){const w=$("nextWrap");if(w)w.innerHTML=""}
+onLang.push(()=>{const b=$("nextBtn");if(b)b.textContent=t("nextQ")});
+/* anonymous counting (only if the site has an analytics ID; never names or anything typed) */
+const track=(name,data)=>{try{if(window.gamesTrack)window.gamesTrack(name,Object.assign({lang:LANG},data||{}))}catch(e){}};
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{})}
+
+/* Shared round flow for the level-based games: level list, 5 questions per round, star, practice round. */
+function makeGame(o){/* o: {key, nQ, renderQ(), onLang()} */
+ const G={lvl:LS.get(o.key+".lvl",0),qi:0,tut:null,timers:[]};
+ G.later=(ms,f)=>G.timers.push(setTimeout(f,ms));
+ G.say=(s,cls)=>{const m=$("msg");m.textContent=s||"";m.className="msg "+(cls||"")};
+ G.prog=()=>{const p=$("prog");p.innerHTML="";for(let i=0;i<(o.nQ||5);i++){const e=document.createElement("i");if(i<G.qi)e.className="on";p.appendChild(e)}p.hidden=!!G.tut};
+ G.renderSetup=()=>{$("starCount").innerHTML="⭐ "+stars.get(o.key);const box=$("levels");box.innerHTML="";const L=t("levels");if(G.lvl>=L.length)G.lvl=0;
+  L.forEach((l,i)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed",String(i===G.lvl));b.innerHTML="<b></b><span></span>";
+   b.firstChild.textContent=(i+1)+". "+l[0]+(stars.get(o.key,i)?"  ⭐"+stars.get(o.key,i):"");b.lastChild.textContent=l[1];b.onclick=()=>{G.lvl=i;LS.set(o.key+".lvl",i);G.renderSetup()};box.appendChild(b)})};
+ G.show=v=>{clearNext();G.timers.forEach(clearTimeout);G.timers=[];$("v-setup").hidden=v!=="setup";$("v-play").hidden=v!=="play";if(v==="setup"){coach.hide();G.tut=null;G.renderSetup()}window.scrollTo(0,0)};
+ G.right=()=>{G.say(yay(),"yay");if(G.tut){coach.glow([]);coach.show(t("tutDone"),{buttons:[[t("gotIt"),"go",()=>G.tut.end("done")]]});return}
+  G.qi++;G.prog();showNext(()=>{if(G.qi>=(o.nQ||5))G.finish();else o.renderQ()})};
+ G.finish=()=>{stars.add(o.key,G.lvl);$("starCount").innerHTML="⭐ "+stars.get(o.key);track("board-done",{game:o.key,level:G.lvl+1});
+  party(t("roundDone"),t("starEarned"),[[t("playAgain"),"go",G.start],[t("newLvl"),"ghost",()=>G.show("setup")]])};
+ G.start=()=>{coach.hide();G.tut=null;G.qi=0;G.show("play");G.prog();o.renderQ();track("game-start",{game:o.key,level:G.lvl+1})};
+ G.startTut=()=>{G.qi=0;G.show("play");G.tut={stage:0,end:how=>{LS.set(o.key+"Tut",true);track("practice-end",{game:o.key,how});G.start()}};G.prog();track("practice-start",{game:o.key});o.renderQ();o.tutStart&&o.tutStart()};
+ G.coach=(k,glow)=>{coach.show(typeof k==="function"?k():t(k),{onSkip:()=>G.tut&&G.tut.end("skip")});coach.glow(glow||[])};
+ $("startBtn").onclick=()=>{if(!LS.get(o.key+"Tut",false))G.startTut();else G.start()};
+ $("tutBtn").onclick=G.startTut;$("backBtn").onclick=()=>G.show("setup");
+ onLang.push(()=>{G.renderSetup();if(!$("v-play").hidden&&o.onLang)o.onLang();if(G.tut&&coach.el){coach.el.querySelector("b").textContent=t("coachTitle");coach.el.querySelector(".skip").textContent=t("skip")}});
+ return G}
+</script>
+<script>
+const CFG={},PICS={"1f438": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#C6E5B3\" d=\"M36 22c0 7.456-8.059 12-18 12S0 29.456 0 22 8.059 7 18 7s18 7.544 18 15z\"/><path fill=\"#77B255\" d=\"M31.755 12.676A5.986 5.986 0 0 0 34 8a6 6 0 0 0-11.851-1.315A11.785 11.785 0 0 0 18 5.927c-1.465 0-2.861.275-4.149.758A6 6 0 0 0 2 8c0 1.891.877 3.576 2.245 4.676C1.6 15.356 0 18.685 0 22c0 7.456 8.059 1 18 1s18 6.456 18-1c0-3.315-1.6-6.644-4.245-9.324z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"3.5\" fill=\"#FFF\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.5\" fill=\"#292F33\"/><circle cx=\"28.5\" cy=\"7.5\" r=\"3.5\" fill=\"#FFF\"/><circle cx=\"28.5\" cy=\"7.5\" r=\"1.5\" fill=\"#292F33\"/><circle cx=\"14\" cy=\"20\" r=\"1\" fill=\"#5C913B\"/><circle cx=\"22\" cy=\"20\" r=\"1\" fill=\"#5C913B\"/></svg>"};
+const times=(n,l)=>l==="am"?(n===1?"1 ጊዜ":n+" ጊዜ"):(n===1?"once":n+" times");
+PAGE_T={
+ en:{pageTitle:"Frog jumps · Gobez Kids",title:"Frog jumps",chooseLvl:"Choose a level",start:"Start",newLvl:"Change level",showMe:"Show me the jumps",
+  levels:[["Jump forward","Grade 1 · 0 to 10"],["Jump back","Grade 1 · 0 to 10"],["Forward and back","Grade 1 · 0 to 20"],["Jump by 2s","Grade 2 · 0 to 20"],["Jump by 10s","Grades 2–3 · 0 to 100"],["Jump by 5s","Grade 2 · 0 to 50"],["How many jumps?","Grades 1–2 · 0 to 20"]],
+  askCount:(s,e)=>"The frog starts on "+s+" and lands on "+e+". How many jumps forward?",tapNum:"Tap the number of jumps.",
+  ask:(s,n,dir,step)=>"The frog is on "+s+". It jumps "+(step>1?"by "+step+"s, ":"")+times(n,"en")+" "+(dir>0?"forward":"back")+". Where does it land?",
+  tapPad:"Tap the leaf where the frog lands.",tryAgain:"Not that leaf. Tap “Show me the jumps” to watch.",roundDone:"Great jumping!",
+  tut1:"The frog is on 2. It will jump 3 times forward. Tap “Show me the jumps”.",tut2:"1, 2, 3 jumps — it landed on 5! Tap leaf 5.",tut3:"You're ready! Find where the frog lands 5 times to earn a star."},
+ am:{pageTitle:"የእንቁራሪት ዝላይ · ጎበዝ ልጆች",title:"የእንቁራሪት ዝላይ",chooseLvl:"ደረጃ ምረጡ",start:"ጀምሩ",newLvl:"ደረጃ ቀይሩ",showMe:"ዝላዮቹን አሳዩኝ",
+  levels:[["ወደ ፊት መዝለል","1ኛ ክፍል · ከ0 እስከ 10"],["ወደ ኋላ መዝለል","1ኛ ክፍል · ከ0 እስከ 10"],["ወደ ፊትና ወደ ኋላ","1ኛ ክፍል · ከ0 እስከ 20"],["በ2 በ2 መዝለል","2ኛ ክፍል · ከ0 እስከ 20"],["በ10 በ10 መዝለል","2ኛ–3ኛ ክፍል · ከ0 እስከ 100"],["በ5 በ5 መዝለል","2ኛ ክፍል · ከ0 እስከ 50"],["ስንት ዝላይ?","1ኛ–2ኛ ክፍል · ከ0 እስከ 20"]],
+  askCount:(s,e)=>"እንቁራሪቷ ከ"+s+" ተነስታ "+e+" ላይ አረፈች። ወደ ፊት ስንት ጊዜ ዘለለች?",tapNum:"የዝላዮቹን ቁጥር ንኩ።",
+  ask:(s,n,dir,step)=>"እንቁራሪቷ "+s+" ላይ ናት። "+(step>1?"በ"+step+" በ"+step+" ":"")+times(n,"am")+" ወደ "+(dir>0?"ፊት":"ኋላ")+" ትዘላለች። የት ታርፋለች?",
+  tapPad:"እንቁራሪቷ የምታርፍበትን ቅጠል ንኩ።",tryAgain:"ያ ቅጠል አይደለም። ለማየት «ዝላዮቹን አሳዩኝ» ንኩ።",roundDone:"ጎበዝ ዝላይ!",
+  tut1:"እንቁራሪቷ 2 ላይ ናት። 3 ጊዜ ወደ ፊት ትዘላለች። «ዝላዮቹን አሳዩኝ» ንኩ።",tut2:"1፣ 2፣ 3 ዝላይ፤ 5 ላይ አረፈች! ቅጠል 5ን ንኩ።",tut3:"ዝግጁ ናችሁ! ኮከብ ለማግኘት እንቁራሪቷ የምታርፍበትን 5 ጊዜ ፈልጉ።"}};
+const G0="frog";let lvl=LS.get("frog.lvl",0),qi=0,cur=null,tut=null,timer=[],anim=false;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function renderSetup(){$("starCount").innerHTML="⭐ "+stars.get(G0);const box=$("levels");box.innerHTML="";
+ t("levels").forEach((l,i)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed",String(i===lvl));b.innerHTML="<b></b><span></span>";
+  b.firstChild.textContent=(i+1)+". "+l[0]+(stars.get(G0,i)?"  ⭐"+stars.get(G0,i):"");b.lastChild.textContent=l[1];b.onclick=()=>{lvl=i;LS.set("frog.lvl",i);renderSetup()};box.appendChild(b)})}
+function show(v){clearNext();timer.forEach(clearTimeout);timer=[];anim=false;$("v-setup").hidden=v!=="setup";$("v-play").hidden=v!=="play";if(v==="setup"){coach.hide();tut=null;renderSetup()}window.scrollTo(0,0)}
+function say(s,cls){const m=$("msg");m.textContent=s||"";m.className="msg "+(cls||"")}
+function prog(){const p=$("prog");p.innerHTML="";for(let i=0;i<5;i++){const e=document.createElement("i");if(i<qi)e.className="on";p.appendChild(e)}p.hidden=!!tut}
+let last="";
+function makeQ(){if(tut)return{max:10,step:1,s:2,n:3,dir:1};let q;
+ do{if(lvl===0){const s=rnd(0,6);q={max:10,step:1,s,n:rnd(1,Math.min(4,10-s)),dir:1}}
+  else if(lvl===1){const s=rnd(4,10);q={max:10,step:1,s,n:rnd(1,Math.min(4,s)),dir:-1}}
+  else if(lvl===2){const d=Math.random()<.5?1:-1,s=d>0?rnd(0,15):rnd(6,20);q={max:20,step:1,s,n:rnd(2,5),dir:d};if(d>0)q.n=Math.min(q.n,20-s);else q.n=Math.min(q.n,s)}
+  else if(lvl===3){const s=2*rnd(0,6);q={max:20,step:2,s,n:rnd(2,Math.min(4,(20-s)/2)),dir:1}}
+  else if(lvl===5){const s=5*rnd(0,7);q={max:50,step:5,s,n:rnd(1,Math.min(3,(50-s)/5)),dir:1}}
+  else if(lvl===6){const s=rnd(0,14);q={max:20,step:1,s,n:rnd(1,Math.min(6,20-s)),dir:1,count:true}}
+  else{const d=Math.random()<.7?1:-1,s=d>0?10*rnd(0,7):10*rnd(3,10);q={max:100,step:10,s,n:rnd(1,3),dir:d};if(d>0)q.n=Math.min(q.n,(100-s)/10);else q.n=Math.min(q.n,s/10)}}
+ while(q.n<1||JSON.stringify(q)===last);last=JSON.stringify(q);return q}
+const FROG=()=>(PICS["1f438"]||"").replace("<svg ",'<svg aria-hidden="true" ');
+function draw(){const q=cur;const vals=[];const ps=q.step>=5?q.step:1;for(let v=0;v<=q.max;v+=ps)vals.push(v);
+ const pads=$("pads");const wide=innerWidth>=700;pads.style.setProperty("--cols",ps>1?(wide?11:4):q.max===10?(wide?11:4):(wide?7:5));pads.innerHTML="";
+ vals.forEach(v=>{const b=document.createElement("button");b.type="button";b.className="pad"+(v===q.s?" start":"")+(q.count&&v===q.ans?" end":"")+(q.result&&v===q.result.v?" "+q.result.c:"");b.dataset.v=v;b.textContent=v;
+  b.setAttribute("aria-label",(LANG==="am"?"ቅጠል ":"Leaf ")+v);
+  if(v===q.at){const f=document.createElement("span");f.className="fr";f.innerHTML=FROG();b.appendChild(f)}
+  if(q.hops&&q.hops[v]){const h=document.createElement("span");h.className="hopn";h.textContent=q.hops[v];b.appendChild(h)}
+  b.onclick=()=>pick(v,b);pads.appendChild(b)})}
+function ask(){$("q").textContent=cur.count?t("askCount")(cur.s,cur.s+cur.n):t("ask")(cur.s,cur.n,cur.dir,cur.step)}
+function countBtns(){const box=$("fans");box.innerHTML="";if(!cur.count)return;const n=cur.n,opts=new Set([n]);while(opts.size<3){const v=n+rnd(-2,2);if(v>=1&&v<=8)opts.add(v)}
+ [...opts].sort((a,b)=>a-b).forEach(v=>{const b=document.createElement("button");b.type="button";b.textContent=v;b.dataset.v=v;b.onclick=()=>pickCount(v,b);box.appendChild(b)})}
+function pickCount(v,el){if(cur.done||anim)return;if(v!==cur.n){el.classList.add("no","shake");setTimeout(()=>el.classList.remove("shake"),450);say(t("tryAgain"),"hmm");return}
+ el.classList.add("ok");cur.done=true;cur.result={v:cur.ans,c:"ok"};draw();say(yay(),"yay");qi++;prog();showNext(()=>{if(qi>=5)finish();else next()})}
+function next(){cur=makeQ();cur.at=cur.s;cur.hops={};cur.done=false;cur.ans=cur.s+cur.dir*cur.n*cur.step;ask();draw();countBtns();say(tut?"":t(cur.count?"tapNum":"tapPad"))}
+function showJumps(){if(!cur||anim||cur.done)return;anim=true;cur.at=cur.s;cur.hops={};draw();let k=0;
+ const step=()=>{k++;cur.at=cur.s+cur.dir*k*cur.step;cur.hops[cur.at]=k;draw();const p=document.querySelector('.pad[data-v="'+cur.at+'"]');p&&p.classList.add("frog-jump");
+  if(k<cur.n)timer.push(setTimeout(step,650));else timer.push(setTimeout(()=>{anim=false;cur.at=cur.s;draw();
+   if(tut&&tut.stage===0){tut.stage=1;coach.show(t("tut2"),{onSkip:()=>tut.end("skip")});coach.glow([document.querySelector('.pad[data-v="5"]')])}},900))};
+ timer.push(setTimeout(step,350))}
+function pick(v,el){if(!cur||cur.done||anim||cur.count)return;if(tut&&tut.stage===0)return;
+ if(v!==cur.ans){el.classList.add("no","shake");setTimeout(()=>el.classList.remove("shake"),450);say(t("tryAgain"),"hmm");return}
+ cur.done=true;cur.result={v,c:"ok"};cur.at=v;draw();say(yay(),"yay");
+ if(tut){coach.glow([]);coach.show(t("tut3"),{buttons:[[t("gotIt"),"go",()=>tut.end("done")]]});return}
+ qi++;prog();showNext(()=>{if(qi>=5)finish();else next()})}
+function finish(){stars.add(G0,lvl);$("starCount").innerHTML="⭐ "+stars.get(G0);track("board-done",{game:G0,level:lvl+1});
+ party(t("roundDone"),t("starEarned"),[[t("playAgain"),"go",startRound],[t("newLvl"),"ghost",()=>show("setup")]])}
+function startRound(){coach.hide();tut=null;qi=0;show("play");prog();next();track("game-start",{game:G0,level:lvl+1})}
+function startTut(){qi=0;show("play");tut={stage:0,end:how=>{LS.set("frogTut",true);track("practice-end",{game:G0,how});startRound()}};prog();next();track("practice-start",{game:G0});
+ coach.show(t("tut1"),{onSkip:()=>tut.end("skip")});coach.glow([$("showBtn")])}
+$("startBtn").onclick=()=>{if(!LS.get("frogTut",false))startTut();else startRound()};
+$("tutBtn").onclick=startTut;$("backBtn").onclick=()=>show("setup");$("showBtn").onclick=showJumps;
+addEventListener("resize",()=>{if(cur&&!$("v-play").hidden&&!anim)draw()});
+onLang.push(()=>{renderSetup();if(cur&&!$("v-play").hidden){ask();draw();if(!cur.done)countBtns()}if(tut&&coach.el){coach.el.querySelector("b").textContent=t("coachTitle");coach.el.querySelector(".skip").textContent=t("skip")}});
+applyLang();show("setup");
+</script>
+</body>
+</html>
